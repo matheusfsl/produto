@@ -5,6 +5,10 @@ import com.produtos.produtos.dto.response.ProdutoDto;
 import com.produtos.produtos.model.ProdutoModel;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Component
 public class ProdutoMapper {
 
@@ -40,5 +44,14 @@ public class ProdutoMapper {
         produtoModel.setDescricao(produtoForm.getDescricao());
 
         return produtoModel;
+    }
+
+    public Set<ProdutoDto> setModelToSetDto (Set<ProdutoModel> produtoModels){
+        if (produtoModels == null || produtoModels.isEmpty()){
+            return Collections.emptySet();
+        }
+        return produtoModels.stream()
+                .map(this::modelToDto)
+                .collect(Collectors.toSet());
     }
 }

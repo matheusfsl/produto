@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Set;
+
 @RestController
 @RequestMapping("/produto")
 public class ProdutoController {
@@ -29,5 +32,17 @@ public class ProdutoController {
     public ResponseEntity<Void> deleteProduto (@PathVariable String name){
         produtoService.softDeleteProdutoByName(name);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Set<ProdutoDto>> getAll (){
+        Set<ProdutoDto> produtoDtos = produtoService.getAllProdutoDto();
+        return ResponseEntity.ok(produtoDtos);
+    }
+
+    @PutMapping("/loteup")
+    public ResponseEntity<Set<ProdutoDto>> updateLote (@RequestBody List<ProdutoForm> produtoFormList){
+        Set<ProdutoDto> produtoDtos = produtoService.updateLote(produtoFormList);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produtoDtos);
     }
 }
